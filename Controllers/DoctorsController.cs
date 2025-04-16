@@ -114,7 +114,161 @@ namespace MedicalCenter.Controllers
             return Ok(booking);
         }
 
+        [HttpGet("{id}/bookings/status/{status}")]
+        public async Task<IActionResult> GetBookingsWithStatus(string id,AppointmentStatusEnum status)
+        {
+            var booking =  await _context.Appointments
+                .Include(m => m.AppointmentStatus)
+                .Where(m => m.DoctorId == id && m.AppointmentStatus!.Status == status)
+                .ToListAsync();
+            return Ok(booking);
+        }
 
-        
+        [HttpGet("{id}/bookings/status/today")]
+        public async Task<IActionResult> GetTodaysBookings(string id)
+        {
+            var today = DateTime.Today;
+            var booking = await _context.Appointments
+                .Include(m => m.Patient)
+                .Where(m => m.DoctorId == id && m.AppointmentTakenDate== today&& m.AppointmentStatus!.Status == AppointmentStatusEnum.Active)
+                .ToListAsync();
+            return Ok(booking);
+        }
+        [HttpGet("{id}/bookings/status/upcoming")]
+        public async Task<IActionResult> GetBookingsUpComing(string id)
+        {
+            var today = DateTime.Today;
+            var booking = await _context.Appointments
+                .Include(m => m.Patient)
+                .Where(m => m.DoctorId == id && m.AppointmentTakenDate >= today && m.AppointmentStatus!.Status == AppointmentStatusEnum.Active)
+                .ToListAsync();
+            return Ok(booking);
+        }
+        [HttpGet("{id}/bookings/status/last30day")]
+        public async Task<IActionResult> GetBookingsLast30Day(string id)
+        {
+            var today = DateTime.Today;
+            var last30Days = today.AddDays(-30);
+            var result = await _context.Appointments
+                .Include(m => m.Patient)
+                .Where(m => m.DoctorId == id &&
+                m.AppointmentTakenDate <= today
+                && m.AppointmentTakenDate >= last30Days
+                && m.AppointmentStatus!.Status == AppointmentStatusEnum.Active)
+                .ToListAsync();
+            return Ok(result);
+        }
+
+        [HttpGet("{id}/reviews")]
+        public async Task<IActionResult> GetReviews(string id)
+        {
+            var today = DateTime.Today;
+            var result = await _context.PatientReviews
+                .Include(m => m.Patient)
+                .Where(m => m.DoctorId == id )
+                .ToListAsync();
+            return Ok(result);
+        }
+
+        [HttpGet("{id}/Rating")]
+        public async Task<IActionResult> GetRating(string id)
+        {
+            var today = DateTime.Today;
+            var Rating = await _context.PatientReviews
+                .Where(m => m.DoctorId == id)
+                .AverageAsync(m => m.OverallRating);
+            return Ok(Rating);
+        }
+
+        [HttpGet("{id}/qualifications")]
+        public async Task<IActionResult> GetQualifications(string id)
+        {
+           
+            var result = await _context.DoctorQualifications
+                .Where(m => m.DoctorId == id)
+                .ToListAsync();
+            return Ok(result);
+        }
+        [HttpGet("{id}/specializations")]
+        public async Task<IActionResult> Getspecializations(string id)
+        {
+
+            var result = await _context.DoctorSpecialization
+                .Include(m => m.Specialization)
+                .Where(m => m.DoctorId == id)
+                .ToListAsync();
+            return Ok(result);
+        }
+
+        [HttpPut("Id")]
+        public async Task<IActionResult> PutDoctor (string id, Doctor doctorFromRequest)
+        {
+            if (id != doctorFromRequest.Id)
+                return BadRequest();
+
+
+            
+            _context.Entry(doctorFromRequest).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DoctorExists(id))
+                    return NotFound();
+                else
+                    throw;
+            }
+            return NoContent();
+        }
+
+        [HttpPut("bookings/{id}")]
+        public async Task<IActionResult> UpdateBooking(int id, [FromBody] Appointment updatedBooking)
+        {
+            var booking = await _context.Appointments.FindAsync(id);
+
+            if (booking == null)
+                return NotFound();
+
+            booking.AppointmentStatus = updatedBooking.AppointmentStatus;
+            booking.AppointmentTakenDate = updatedBooking.AppointmentTakenDate;
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDoctor(string id)
+        {
+            var doctor = await _context.Doctors.FindAsync(id);
+            if (doctor == null)
+                return NotFound();
+            _context.Doctors.Remove(doctor);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}/appointments/{appointmentid}")]
+        public async Task<IActionResult> DeleteAppointment(string id ,int appointmentid)
+        {
+            var appointment= await _context.Appointments
+                .Include(m=>m.AppointmentStatus)
+                .Where(m=>m.DoctorId==id&&m.Id==appointmentid)
+                .FirstOrDefaultAsync();
+            if (appointment == null)
+                return NotFound(new { message = "Appointment not found" });
+            appointment.AppointmentStatusId = (int)AppointmentStatusEnum.Canceled;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+
+
+
+        private bool DoctorExists(string id)
+        {
+            return _context.Doctors.Any(e => e.Id == id);
+        }
     }
 }
