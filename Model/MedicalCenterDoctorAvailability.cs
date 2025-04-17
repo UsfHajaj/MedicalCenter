@@ -10,6 +10,6 @@
         public bool? IsAvailable { get; set; }
         public string? ReasonOfUnavailability { get; set; }
 
-        public MedicalCenter? MedicalCenter { get; set; } = null!;
+        public MedicalCenters? MedicalCenter { get; set; } = null!;
     }
 }

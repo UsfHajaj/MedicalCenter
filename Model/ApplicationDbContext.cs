@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 namespace MedicalCenter.Model
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -15,7 +16,19 @@ namespace MedicalCenter.Model
             builder.Entity<Doctor>()
                 .ToTable("Doctors");
             builder.Entity<Patient>()
-                .ToTable("Patients");
+            .ToTable("Patients");
+
+            builder.Entity<Service>()
+            .HasOne(s => s.Specialization)
+            .WithMany(sp => sp.Services)
+            .HasForeignKey(s => s.SpecializationId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<DoctorSpecialization>()
+                     .HasOne(ds => ds.Specialization)
+                     .WithMany(s => s.DoctorSpecializations)
+                     .HasForeignKey(ds => ds.SpecializationId)
+                     .OnDelete(DeleteBehavior.Cascade);
         }
 
 
@@ -29,7 +42,7 @@ namespace MedicalCenter.Model
         public DbSet<DoctorQualification> DoctorQualifications { get; set; }
         public DbSet<HospitalAffiliation> HospitalAffiliation { get; set; }
         public DbSet<MedicalCenterDoctorAvailability> MedicalCenterDoctorAvailability { get; set; }
-        public DbSet<MedicalCenter> MedicalCenter { get; set; }
+        public DbSet<MedicalCenters> MedicalCenter { get; set; }
         public DbSet<PatientReview> PatientReviews { get; set; }
     }
 }

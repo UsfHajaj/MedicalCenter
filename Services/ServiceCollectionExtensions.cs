@@ -17,6 +17,9 @@ namespace MedicalCenter.Services
         public static void AddApplicationServices(this IServiceCollection services ,IConfiguration configuration)
         {
             services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<EmailTemplateService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));

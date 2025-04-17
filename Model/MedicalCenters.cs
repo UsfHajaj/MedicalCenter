@@ -1,6 +1,6 @@
 ﻿namespace MedicalCenter.Model
 {
-    public class MedicalCenter
+    public class MedicalCenters
     {
         public int Id { get; set; }
         public int? HospitalAffiliationId { get; set; }

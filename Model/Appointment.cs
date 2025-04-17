@@ -20,7 +20,7 @@
         public Payment? Payment { get; set; }
         public Doctor? Doctor { get; set; } = null!;
         public Patient? Patient { get; set; } = null!;
-        public MedicalCenter? MedicalCenter { get; set; } = null!;
+        public MedicalCenters? MedicalCenter { get; set; } = null!;
         public AppointmentStatus? AppointmentStatus { get; set; } = null!;
     }
 }

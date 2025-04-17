@@ -1,0 +1,83 @@
+﻿﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 70%;
+            margin: auto;
+            text-align: left;
+        }
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .details {
+            padding: 15px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+            .details p {
+                margin: 5px 0;
+            }
+
+        .footer {
+            margin-top: 25px;
+            font-size: 14px;
+            color: #7f8c8d;
+            text-align: center;
+        }
+
+        .btn {
+            display: block;
+            width: 200px;
+            text-align: center;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            margin: 20px auto;
+            font-weight: bold;
+        }
+
+            .btn:hover {
+                background-color: #2980b9;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Appointment Confirmation ✅</h2>
+        <p>Dear <strong>{{patientName}}</strong>,</p>
+        <p>We are pleased to confirm your appointment.</p>
+
+        <div class="details">
+            <p><strong>👨‍⚕️ Doctor:</strong> {{DoctorName}}</p>
+            <p><strong>📅 Date & Time:</strong> {{date}}</p>
+        </div>
+
+        <a href="#" class="btn">View Appointment</a>
+
+        <p class="footer">Thank you for choosing our services! If you have any questions, feel free to contact us.</p>
+    </div>
+</body>
+</html>
