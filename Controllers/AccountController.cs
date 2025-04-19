@@ -17,12 +17,14 @@ namespace MedicalCenter.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IJwtService _jwtService;
+        private readonly IGoogleService _googleService;
 
-        public AccountController(UserManager<ApplicationUser> userManager,IConfiguration configuration,IJwtService jwtService)
+        public AccountController(UserManager<ApplicationUser> userManager,IConfiguration configuration,IJwtService jwtService,IGoogleService googleService)
         {
             _userManager = userManager;
             _configuration = configuration;
             _jwtService = jwtService;
+            _googleService = googleService;
         }
         [HttpPost("register/user")]
         public async Task<IActionResult> Register(RegisterUserDTO UserFromRequest)
@@ -114,6 +116,32 @@ namespace MedicalCenter.Controllers
             }
             return BadRequest(ModelState);
         }
+
+        [HttpGet("LoginWithGoogle")]
+        public IActionResult LoginWithGoogle()
+        {
+            var properties= _googleService.GetGoogleLoginProperties(Url.Action(nameof(GoogleLoginCallback)));
+            return Challenge(properties, "Google"); 
+        }
+        [HttpGet("GoogleLoginCallback")]
+        public async Task<IActionResult> GoogleLoginCallback()
+        {
+            try
+            {
+                var token =await _googleService.GoogleLoginCallbackAsync();
+                return Redirect($"http://localhost:4200/auth/login?token={token}");
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Unauthorized("External login failed.");
+            }
+            catch
+            {
+                return BadRequest("An error occurred during Google login.");
+            }
+        }
+
+
 
         [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
