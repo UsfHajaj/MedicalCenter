@@ -1,11 +1,11 @@
-# 🏥 Medical Center Management System - ASP.NET Core Web API 9.0
+# Medical Center Management System - ASP.NET Core Web API 9.0
 
 A powerful and fully featured **Medical Center Management System API** built with **ASP.NET Core 9.0**.  
 This project provides full backend support for managing users (patients, doctors, admins), appointments, reviews, and medical centers.
 
-## 🚀 Features
+## Features
 
-### ✅ Authentication & Account Management
+### Authentication & Account Management
 - User/Admin/Doctor registration
 - Login with JWT
 - Email confirmation
@@ -13,35 +13,35 @@ This project provides full backend support for managing users (patients, doctors
 - Reset/Change password
 - Account deletion
 
-### 🩺 Appointments
+### Appointments
 - Create, view, update, and delete appointments
 - Filter by patient, date, and status
 - View today’s/upcoming/last 30 days appointments
 - Total earnings calculation
 
-### 👨‍⚕️ Doctors
+###  Doctors
 - CRUD operations for doctors
 - Doctor bookings by status/date
 - View reviews, qualifications, rating, and specializations
 - Manage appointments
 
-### 🏥 Medical Centers
+### Medical Centers
 - CRUD for medical centers
 - Manage doctor availabilities in each center
 
-### 👨‍👩‍👧‍👦 Patients
+### Patients
 - Patient profile
 - Appointment history & date range filters
 - Review linking and appointment cancellation
 
-### ⭐ Reviews & Specializations
+### Reviews & Specializations
 - Add/Edit/Delete patient reviews
 - Unique patient reviewers
 - Full CRUD for medical specializations
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 MedicalCenter/
 ├── Controllers/                       # API Controllers
@@ -65,7 +65,7 @@ MedicalCenter/
 
 ---
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - ASP.NET Core 9.0
 - Entity Framework Core
@@ -76,7 +76,7 @@ MedicalCenter/
 
 ---
 
-## 🧑‍💻 Getting Started
+## Getting Started
 
 Follow these steps to run the project locally:
 
