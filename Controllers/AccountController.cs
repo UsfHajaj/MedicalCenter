@@ -117,13 +117,13 @@ namespace MedicalCenter.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpGet("LoginWithGoogle")]
+        [HttpGet("GoogleLogin")]
         public IActionResult LoginWithGoogle()
         {
             var properties= _googleService.GetGoogleLoginProperties(Url.Action(nameof(GoogleLoginCallback)));
             return Challenge(properties, "Google"); 
         }
-        [HttpGet("GoogleLoginCallback")]
+        [HttpGet("GoogleCallback")]
         public async Task<IActionResult> GoogleLoginCallback()
         {
             try
@@ -143,7 +143,7 @@ namespace MedicalCenter.Controllers
 
 
 
-        [HttpGet("confirm-email")]
+        [HttpGet("confirmEmail")]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             var user = await _userManager.FindByIdAsync(userId);
