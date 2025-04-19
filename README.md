@@ -42,7 +42,7 @@ This project provides full backend support for managing users (patients, doctors
 ---
 
 ## Project Structure
-
+```
 MedicalCenter/
 ├── Controllers/                       # API Controllers
 ├── Data/
@@ -62,7 +62,7 @@ MedicalCenter/
 ├── appsettings.Development.json      # Dev-specific config
 ├── .gitignore                        # Ignored files for Git
 └── .gitattributes                    # Git settings
-
+```
 ---
 
 ## Technologies Used
