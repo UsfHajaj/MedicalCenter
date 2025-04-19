@@ -117,29 +117,29 @@ namespace MedicalCenter.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpGet("GoogleLogin")]
-        public IActionResult LoginWithGoogle()
-        {
-            var properties= _googleService.GetGoogleLoginProperties(Url.Action(nameof(GoogleLoginCallback)));
-            return Challenge(properties, "Google"); 
-        }
-        [HttpGet("GoogleCallback")]
-        public async Task<IActionResult> GoogleLoginCallback()
-        {
-            try
-            {
-                var token =await _googleService.GoogleLoginCallbackAsync();
-                return Redirect($"http://localhost:4200/auth/login?token={token}");
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return Unauthorized("External login failed.");
-            }
-            catch
-            {
-                return BadRequest("An error occurred during Google login.");
-            }
-        }
+        //[HttpGet("GoogleLogin")]
+        //public IActionResult LoginWithGoogle()
+        //{
+        //    var properties= _googleService.GetGoogleLoginProperties(Url.Action(nameof(GoogleLoginCallback)));
+        //    return Challenge(properties, "Google"); 
+        //}
+        //[HttpGet("GoogleCallback")]
+        //public async Task<IActionResult> GoogleLoginCallback()
+        //{
+        //    try
+        //    {
+        //        var token =await _googleService.GoogleLoginCallbackAsync();
+        //        return Redirect($"http://localhost:4200/auth/login?token={token}");
+        //    }
+        //    catch (UnauthorizedAccessException)
+        //    {
+        //        return Unauthorized("External login failed.");
+        //    }
+        //    catch
+        //    {
+        //        return BadRequest("An error occurred during Google login.");
+        //    }
+        //}
 
 
 

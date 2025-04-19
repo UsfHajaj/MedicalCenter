@@ -1,10 +1,12 @@
 using MedicalCenter.Services;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace MedicalCenter
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
@@ -18,6 +20,13 @@ namespace MedicalCenter
 
 
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                await roleManager.EnsureRolesCreatedAsync();
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
